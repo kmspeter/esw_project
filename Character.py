@@ -8,11 +8,11 @@ class Character:
         self.width = width
         self.height = height
         self.position = [width // 2, height // 2]
-        self.idle_image = Image.open('/home/kau-esw/esw/esw_project/mario.png').convert('RGBA')
+        self.idle_image = Image.open('/home/kau-esw/esw/esw_project/images/mario.png').convert('RGBA')
         self.move_images = [
-            Image.open('/home/kau-esw/esw/esw_project/mario_move0.png').convert('RGBA'),
-            Image.open('/home/kau-esw/esw/esw_project/mario_move1.png').convert('RGBA'),
-            Image.open('/home/kau-esw/esw/esw_project/mario_move2.png').convert('RGBA')
+            Image.open('/home/kau-esw/esw/esw_project/images/mario_move0.png').convert('RGBA'),
+            Image.open('/home/kau-esw/esw/esw_project/images/mario_move1.png').convert('RGBA'),
+            Image.open('/home/kau-esw/esw/esw_project/images/mario_move2.png').convert('RGBA')
         ]
         self.current_image = self.idle_image
         self.current_move_index = 0
