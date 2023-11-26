@@ -28,13 +28,13 @@ class Character:
                 self.current_image = self.current_image.transpose(Image.FLIP_LEFT_RIGHT)
                 
             if command['up_pressed']:
-                self.position[1] -= 5
+                self.position[1] -= 10
             if command['down_pressed']:
-                self.position[1] += 5
+                self.position[1] += 10
             if command['left_pressed']:
-                self.position[0] -= 5
+                self.position[0] -= 10
             if command['right_pressed']:
-                self.position[0] += 5
+                self.position[0] += 10
         else:
             # 정지 상태일 때 idle 이미지 사용
             self.current_image = self.idle_image
