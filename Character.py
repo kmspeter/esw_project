@@ -8,11 +8,11 @@ class Character:
         self.width = width
         self.height = height
         self.position = [width // 2, height // 2]
-        self.idle_image = Image.open('Character.png').convert('RGBA')
+        self.idle_image = Image.open('/home/kau-esw/esw/esw_project/mario.png').convert('RGBA')
         self.move_images = [
-            Image.open('Cmove1.png').convert('RGBA'),
-            Image.open('Cmove2.png').convert('RGBA'),
-            Image.open('Cmove3.png').convert('RGBA')
+            Image.open('/home/kau-esw/esw/esw_project/mario_move0.png').convert('RGBA'),
+            Image.open('/home/kau-esw/esw/esw_project/mario_move1.png').convert('RGBA'),
+            Image.open('/home/kau-esw/esw/esw_project/mario_move2.png').convert('RGBA')
         ]
         self.current_image = self.idle_image
         self.current_move_index = 0
@@ -22,6 +22,11 @@ class Character:
             # 움직이는 상태일 때 순서대로 이미지 변경
             self.current_image = self.move_images[self.current_move_index]
             self.current_move_index = (self.current_move_index + 1) % len(self.move_images)
+            
+            
+            if command['left_pressed']:
+                self.current_image = self.current_image.transpose(Image.FLIP_LEFT_RIGHT)
+                
             if command['up_pressed']:
                 self.position[1] -= 5
             if command['down_pressed']:
