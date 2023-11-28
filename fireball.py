@@ -16,11 +16,11 @@ class Fireball:
 
     def update_position(self):
         # 화염구를 초기 위치를 기준으로 오른쪽으로만 이동
-        self.position[0] += 20  # 이동할 값은 적절히 조절
+        self.position[0] += 20
 
     def should_disappear(self):
         # 일정 조건을 충족하면 True를 반환하여 화염구를 사라지게 만들기
-        max_distance = 200  # 적절한 값으로 조절
+        max_distance = 100
         distance_moved = abs(self.position[0] - self.initial_position[0])
 
         return distance_moved > max_distance
