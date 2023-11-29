@@ -5,10 +5,10 @@ def is_collision(obj1, obj2):
 
     # 충돌 감지 로직
     if (
-        box1[0] < box2[2] and
-        box1[2] > box2[0] and
-        box1[1] < box2[3] and
-        box1[3] > box2[1]
+        box1[0] > box2[0] or
+        box1[1] > box2[1] or
+        box1[2] < box2[2] or
+        box1[3] < box2[3]
     ):
         return True
     else:

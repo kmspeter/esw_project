@@ -82,7 +82,7 @@ def main():
         if random.randint(0, 100) < 5:
         # 캐릭터의 위치를 기준으로 오른쪽에 나타나도록 설정
             new_enemy = Enemy(
-                character.position[0] + 200,  # 예시로 200의 간격을 두었습니다. 원하는 값으로 조절해주세요.
+                character.position[0] + 200,
                 random.randint(0, joystick.height - 50)
             )
             enemies.append(new_enemy)
