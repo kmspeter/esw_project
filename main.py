@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 import time
 import random
 from Character import Character
@@ -6,6 +6,7 @@ from Joystick import Joystick
 from fireball import Fireball
 from Enemy import Enemy
 from crash import is_collision
+from Power import Power
 
 
 def show_game_over_screen(joystick):
@@ -35,6 +36,14 @@ def main():
     character = Character(joystick.width, joystick.height)
     fireballs = []
     enemies = []
+    power = Power()
+    
+    enemies_killed = 0
+    coin_c = 0
+    start_time = time.time()
+    
+    font_size = 15
+    font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", font_size)
 
     while True:
         if not character.is_alive:
@@ -51,8 +60,12 @@ def main():
             character = Character(joystick.width, joystick.height)
             fireballs = []
             enemies = []
+            power.reactivate()
+            enemies_killed = 0
+            coin_c = 0
+            start_time = time.time()
             
-        command = {'move': False, 'up_pressed': False, 'down_pressed': False, 'left_pressed': False, 'right_pressed': False, 'attack': False}
+        command = {'move': False, 'up_pressed': False, 'down_pressed': False, 'left_pressed': False, 'right_pressed': False, 'attack': False, 'power': False}
 
         if not joystick.button_U.value:
             command['up_pressed'] = True
@@ -72,6 +85,13 @@ def main():
 
         if not joystick.button_A.value:
             command['attack'] = True
+            
+        if not joystick.button_B.value:
+            command['power'] = True
+
+        if command['power']:
+            if power.available_usages > 0:
+                power.activate()
 
         character.move(command)
 
@@ -80,6 +100,12 @@ def main():
 
         my_image = Image.new("RGB", (joystick.width, joystick.height), (255, 255, 255))
         draw = ImageDraw.Draw(my_image)
+        
+        if power.is_active():
+            # Power가 활성화된 경우에는 애니메이션 업데이트
+            power.update_animation_frame()
+            # 애니메이션 프레임을 현재 위치에 표시
+            my_image.paste(power.get_current_animation_frame(), (joystick.width // 2 - 70, joystick.height // 2 - 70), power.get_current_animation_frame())
 
         my_image.paste(character.current_image, (display_x, display_y), character.current_image)
 
@@ -97,6 +123,7 @@ def main():
             # 적과의 충돌 체크
             for enemy in enemies.copy():
                 if enemy.is_alive and is_collision(fireball, enemy):
+                    enemies_killed += 1
                     fireball.should_disappear()
                     enemy.hit_by_fireball()
                     # 적을 리스트에서 제거
@@ -111,6 +138,7 @@ def main():
                     continue
 
                 if is_collision(fireball, enemy):
+                    enemies_killed += 1
                     fireball.should_disappear()
                     enemy.hit_by_fireball()
 
@@ -119,6 +147,10 @@ def main():
             enemy_display_x = enemy.position[0]
             enemy_display_y = enemy.position[1]
             my_image.paste(enemy.current_image, (enemy_display_x, enemy_display_y), enemy.current_image)
+            
+            if power.is_active():
+                # 활성화된 Power 상태에서는 모든 적을 제거
+                enemies = []
             
             if is_collision(character, enemy):
                 character.is_alive = False
@@ -130,6 +162,13 @@ def main():
                 random.randint(0, joystick.height - 50)
             )
             enemies.append(new_enemy)
+
+        top_text = f"Score: {enemies_killed*200 + coin_c*500 + int(time.time() - start_time)*20} | Time: {int(time.time() - start_time)}s"
+        next_text = f"Boss appears: {10000 - enemies_killed*200 + coin_c*500}"
+        power_text = f"Power: {power.available_usages}"
+        draw.text((10, 10), top_text, fill=(0, 0, 0), font=font)
+        draw.text((10, 25), next_text, fill=(0, 0, 0), font=font)
+        draw.text((10, 40), power_text, fill=(0, 0, 0), font=font)
 
         # 화면 업데이트
         joystick.disp.image(my_image)
