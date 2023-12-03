@@ -7,7 +7,7 @@ class Character:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.position = [width // 2, height // 2]
+        self.position = [width // 2 - 70, height // 2]
         self.idle_image = Image.open('/home/kau-esw/esw/esw_project/images/mario.png').convert('RGBA')
         self.move_images = [
             Image.open('/home/kau-esw/esw/esw_project/images/mario_move0.png').convert('RGBA'),
@@ -16,8 +16,11 @@ class Character:
         ]
         self.current_image = self.idle_image
         self.current_move_index = 0
+        self.is_alive = True
 
     def move(self, command):
+        if not self.is_alive:
+            return
         if command['move']:
             # 움직이는 상태일 때 순서대로 이미지 변경
             self.current_image = self.move_images[self.current_move_index]
@@ -38,3 +41,11 @@ class Character:
         else:
             # 정지 상태일 때 idle 이미지 사용
             self.current_image = self.idle_image
+            
+    def get_bounding_box(self):
+        return (
+            self.position[0] - 5,
+            self.position[1] - 5,
+            self.position[0] + 5,
+            self.position[1] + 5
+        )

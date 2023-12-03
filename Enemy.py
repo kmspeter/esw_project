@@ -29,7 +29,6 @@ class Enemy:
         distance_moved = abs(self.position[0] - self.initial_position[0])
 
         if distance_moved > max_distance:
-            print("Enemy should disappear")
             self.is_alive = False
             return True
         return False
@@ -37,8 +36,8 @@ class Enemy:
     def get_bounding_box(self):
         # 적의 경계 상자 정보 반환
         return (
-            self.position[0],
-            self.position[1],
-            self.position[0] + self.current_image.width,
-            self.position[1] + self.current_image.height
+            self.position[0] - 20,
+            self.position[1] - 20,
+            self.position[0] + 20,
+            self.position[1] + 20
         )
