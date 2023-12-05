@@ -61,7 +61,7 @@ def main():
     fireballs = []
     enemies = []
     power = Power()
-    coins = [Coin(joystick.width // 2, joystick.height // 2) for _ in range(3)]
+    coins = []
 
     
     enemies_killed = 0
@@ -87,7 +87,7 @@ def main():
             character = Character(joystick.width, joystick.height)
             fireballs = []
             enemies = []
-            coins = [Coin(joystick.width // 2, joystick.height // 2) for _ in range(3)]
+            coins = []
             power.reactivate()
             enemies_killed = 0
             coin_c = 0
@@ -203,7 +203,7 @@ def main():
                 coin_c += 1
                 coins.remove(coin)
         
-        if random.randint(0, 100) < 1:
+        if random.randint(0, 100) < 5:
             new_coin = Coin(
                 random.randint(0, joystick.width//2),
                 random.randint(50, joystick.height-50)
@@ -222,7 +222,7 @@ def main():
         time.sleep(0.1)
         
         #게임 클리어
-        if enemies_killed*200 + coin_c*500 >= 20000:
+        if enemies_killed*200 + coin_c*500 + int(time.time() - start_time)*20 >= 20000:
             show_game_clear_screen(joystick)
             # 게임 클리어 후 대기
             while True:
@@ -235,7 +235,7 @@ def main():
             character = Character(joystick.width, joystick.height)
             fireballs = []
             enemies = []
-            coins = [Coin(joystick.width // 2, joystick.height // 2) for _ in range(3)]
+            coins = []
             power.reactivate()
             enemies_killed = 0
             coin_c = 0
