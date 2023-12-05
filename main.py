@@ -222,7 +222,7 @@ def main():
         time.sleep(0.1)
         
         #게임 클리어
-        if enemies_killed*200 + coin_c*500 >= 500:
+        if enemies_killed*200 + coin_c*500 >= 20000:
             show_game_clear_screen(joystick)
             # 게임 클리어 후 대기
             while True:
