@@ -22,7 +22,6 @@ class Character:
         if not self.is_alive:
             return
         if command['move']:
-            # 움직이는 상태일 때 순서대로 이미지 변경
             self.current_image = self.move_images[self.current_move_index]
             self.current_move_index = (self.current_move_index + 1) % len(self.move_images)
             
@@ -39,7 +38,6 @@ class Character:
             if command['right_pressed']:
                 self.position[0] += 10
         else:
-            # 정지 상태일 때 idle 이미지 사용
             self.current_image = self.idle_image
             
     def get_bounding_box(self):

@@ -3,7 +3,7 @@ from PIL import Image
 class Enemy:
     def __init__(self, x, y):
         self.position = [x, y]
-        self.initial_position = [x, y]  # 초기 위치 추가
+        self.initial_position = [x, y]  # 초기 위치
         self.images = [
             Image.open('/home/kau-esw/esw/esw_project/images/koopa_0.png').convert('RGBA'),
             Image.open('/home/kau-esw/esw/esw_project/images/koopa_1.png').convert('RGBA')
@@ -34,7 +34,6 @@ class Enemy:
         return False
     
     def get_bounding_box(self):
-        # 적의 경계 상자 정보 반환
         return (
             self.position[0] - 20,
             self.position[1] - 20,
